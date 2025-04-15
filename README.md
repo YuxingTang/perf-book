@@ -2,6 +2,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/dendibakh/perf-book)
 
 # "Performance Analysis and Tuning on Modern CPUs" by Denis Bakhvalov, et al.
+## tyx@cpu try to translate original book into 中文
 
 ## Building a book (pdf)
 
