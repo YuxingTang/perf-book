@@ -30,9 +30,6 @@ As it's no longer the case that each hardware generation provides a significant 
 
 > “如今的软件效率极低；软件程序员们再次迎来提升优化能力的关键时期。”——美国企业家兼投资人马克·安德森Marc Andreessen（a16z播客）
 
-[^1]: A quintillion is a thousand raised to the power of six (10^18^).
-[^1]: 百亿亿 quintillion是千的6次方(10^18^)，也就是1后面18个零。
-[^2]: Single-threaded performance is the performance of a single hardware thread inside a CPU core when measured in isolation.
-[^2]：单线程性能是指在CPU核心内单独测量单个硬件线程的性能。
-[^3]: Dennard Scaling - [https://en.wikipedia.org/wiki/Dennard_scaling](https://en.wikipedia.org/wiki/Dennard_scaling)
-[^3]：丹纳德缩放（Dennard Scaling）——[参见英文维基百科对应页面](https://en.wikipedia.org/wiki/Dennard_scaling)
+[^1]: A quintillion is a thousand raised to the power of six (10^18^).百亿亿quintillion是千的6次方(10^18^)，也就是1后面18个零。
+[^2]: Single-threaded performance is the performance of a single hardware thread inside a CPU core when measured in isolation.单线程性能是指在CPU核心内单独测量单个硬件线程的性能。
+[^3]: Dennard Scaling - [https://en.wikipedia.org/wiki/Dennard_scaling](https://en.wikipedia.org/wiki/Dennard_scaling)丹纳德缩放（Dennard Scaling）——[参见英文维基百科对应页面](https://en.wikipedia.org/wiki/Dennard_scaling)
