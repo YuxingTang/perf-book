@@ -2,7 +2,11 @@
 
 Another technique to facilitate parallel processing is called Single Instruction Multiple Data (SIMD), which is used in nearly all high-performance processors. As the name indicates, in a SIMD processor, a single instruction operates on many data elements in a single cycle using many independent functional units. Operations on vectors and matrices lend themselves well to SIMD architectures as every element of a vector or matrix can be processed using the same instruction. A SIMD architecture enables more efficient processing of a large amount of data and works best for data-parallel applications that involve vector operations.
 
+另外一种实现并行处理的技术被称为单指令流多数据流（SIMD: Single Instruction Multiple Data），几乎在所有的高性能处理器中都有使用。正如名字所暗示的，在一个SIMD处理器中，单一一条指令在单一周期内使用多个独立的功能单元同时操作多个数据元素。在向量和矩阵上的操作和SIMD体系结构非常匹配，因为在一个向量和矩阵中的每个一个元素单元都使用相同的指令来处理。一个SIMD体系结构能够对大量数据进行更高效的处理，并且对包含向量操作在内的数据并行应用是最适合的。
+
 Figure @fig:SIMD shows scalar and SIMD execution modes for the code in @lst:SIMD. In a traditional Single Instruction Single Data (SISD) mode, also known as *scalar* mode, the addition operation is separately applied to each element of arrays `a` and `b`. However, in SIMD mode, addition is applied to multiple elements at the same time. If we target a CPU architecture that has execution units capable of performing operations on 256-bit vectors, we can process four double-precision elements with a single instruction. This leads to issuing 4x fewer instructions and can potentially gain a 4x speedup over four scalar computations.
+
+图 @fig:SIMD 展示了在代码 @list:SIMD中的标量和SIMD执行模式。在一个传统的单指令单数据（SISD: Single Instruction Single Data）模式，也就是*标量Scalar*模式，加法操作被单独的应用在数组`a`和`b`中的每一个元素上。但是，在SIMD模式中，加法在相同时间被引用于多个元素。如果我们的目标是一个CPU体系结构具有能够在256位向量上执行操作的执行单元，我们就可以用一条指令处理4个双精度数据元素。这导致了发射的指令数量少了4被，并且可以相对于4个标量计算获得4倍加速。
 
 Listing: SIMD execution
 
