@@ -9,8 +9,8 @@ The authors of the paper [@Leisersoneaam9744] provide an excellent example that 
 《科学》期刊论文作者 [@Leisersoneaam9744] 提供了一个很好的例子，说明了“默认”软件和高度优化软件之间的性能差距。表 @tbl:PlentyOfRoom 总结了通过性能工程优化一个计算2个4096×4096矩阵乘积的程序所获得的加速效果。经过多项优化，最终程序的运行速度提高了6万倍以上。提供这个例子并非意在贬低Python或Java（它们都是优秀的语言），而是为了打破“软件默认性能就足够好”的固有观念。大多数程序的主体都集中在第1到5行。源代码层面的改进潜力巨大。
 
 -------------------------------------------------------------
-Version   Implementation                 Absolute    Relative 
-                                         speedup     speedup
+Version版本   Implementation实现          Absolute绝对 Relative相对 
+                                         speedup加速  speedup加速
 
 -------   ----------------------------   --------    --------
    1         Python                         1            —
