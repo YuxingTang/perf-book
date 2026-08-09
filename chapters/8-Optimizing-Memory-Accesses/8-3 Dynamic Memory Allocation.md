@@ -1,16 +1,26 @@
-## Dynamic Memory Allocation
+## Dynamic Memory Allocation 动态内存分配
 
 Developers should realize that dynamic memory allocation has many associated costs. Allocating an object on the stack is done instantly, regardless of the size of the object: you just need to move the stack pointer. However, dynamic memory allocation is a more complex operation. It involves calling a standard library function like `malloc`, which potentially may delegate the allocation to the operating system. Avoiding unnecessary dynamic memory allocation is the first step to avoiding these costs. The easy target in this process is temporary allocations, i.e., allocations that are directly followed by their deallocation. In [@sec:HeaptrackCaseStudy] we showed how you can use `heaptrack` to find sources of dynamic memory allocations.
 
+开发者应该意识到动态内存分配会带来诸多开销。在栈上分配对象是即时的，无论对象大小如何：只需移动栈指针即可。然而，动态内存分配则是一个更为复杂的操作。它涉及到调用诸如 `malloc` 之类的标准库函数，而该函数可能会将分配操作委托给操作系统。避免不必要的动态内存分配是避免这些开销的第一步。在此过程中，最容易入手的是临时分配，即分配后立即释放的内存。在 [@sec:HeaptrackCaseStudy] 中，我们展示了如何使用 `heaptrack` 来查找动态内存分配的来源。
+
 You can amortize the cost of many small allocations by allocating one large block. This is the core idea behind [arena allocators](https://en.wikipedia.org/wiki/Region-based_memory_management)[^16] and memory pools. It gives more flexibility for manual memory management. You can take a memory region allocated by the OS and design your own allocation strategy on top of that region. One simple strategy could be to divide that region into two parts: one for hot data and one for cold data. And provide two allocation methods that will tap into their own arenas. Keeping hot data together creates opportunities for better cache utilization. It is also likely to improve TLB utilization since hot data will be more compact and will occupy fewer memory pages. 
+
+您可以通过分配一个大内存块来分摊多个小内存分配的开销。这正是 [arena内存分配器](https://en.wikipedia.org/wiki/Region-based_memory_management)[^16] 和内存池背后的核心思想。它为手动内存管理提供了更大的灵活性。您可以利用操作系统分配的内存区域，并在此基础上设计自己的内存分配策略。一种简单的策略是将该区域划分为两部分：一部分用于热数据，另一部分用于冷数据。并提供两种分配方法，分别针对不同的区域。将热数据存储在一起可以提高缓存利用率。此外，由于热数据更加紧凑，占用的内存页更少，因此也有助于提高TLB的利用率。
 
 Another cost of dynamic memory allocation appears when an application is using multiple threads. When two threads are trying to allocate memory at the same time, the OS has to synchronize them. In a highly concurrent application, threads may spend a significant amount of time waiting for a common lock to allocate memory. The same applies to memory deallocation. Again, custom allocators can help to avoid this problem, for example, by employing a separate arena for each thread.
 
+动态内存分配的另一个代价体现在应用程序使用多线程时。当两个线程同时尝试分配内存时，操作系统必须进行同步。在高度并发的应用程序中，线程可能需要花费大量时间等待公共锁来分配内存。内存释放也存在同样的问题。自定义分配器可以帮助避免这个问题，例如，为每个线程使用单独的区域。
+
 There are many drop-in replacements for the standard dynamic memory allocation routines (`malloc` and `free`) that are faster, more scalable, and address fragmentation problems better. Some of the most popular memory allocation libraries are [jemalloc](http://jemalloc.net/)[^17] and [tcmalloc](https://github.com/google/tcmalloc)[^18]. Some projects adopted `jemalloc` and `tcmalloc` as their default memory allocator, and they have seen significant performance improvements. 
+
+有很多可以替代标准动态内存分配例程（`malloc` 和 `free`）的方案，这些方案速度更快、可扩展性更强，并且能够更好地解决内存碎片问题。一些最流行的内存分配库包括 [jemalloc](http://jemalloc.net/)[^17] 和 [tcmalloc](https://github.com/google/tcmalloc)[^18]。一些项目采用 `jemalloc` 和 `tcmalloc` 作为默认内存分配器，并获得了显著的性能提升。
 
 Finally, some costs of dynamic memory allocation are hidden[^20] and cannot be easily measured. In all major operating systems, the pointer returned by `malloc` is just a promise – the OS commits that when pages are touched it will provide the required memory, but the actual physical pages are not allocated until the virtual addresses are accessed. This is called *demand paging*, which incurs a cost of a minor page fault for every newly allocated page. We discuss how to mitigate this cost in [@sec:AvoidPageFaults]. Also, for security reasons, all modern operating systems erase the contents (write zeros) of a page before giving it to the next process. The OS maintains a pool of zeroed pages to have them ready for allocation. But when this pool runs out of available zeroed pages, the OS has to zero a page on demand. This process isn't super expensive, but it isn't free either and may increase the latency of a memory allocation call.
 
-[^16]: Region-based memory management - [https://en.wikipedia.org/wiki/Region-based_memory_management](https://en.wikipedia.org/wiki/Region-based_memory_management)
+最后，动态内存分配的一些开销是隐藏的[^20]，难以衡量。在所有主流操作系统中，`malloc` 返回的指针只是一个承诺——操作系统承诺在访问页面时提供所需的内存，但实际的物理页面只有在访问虚拟地址时才会分配。这被称为*按需分页(demand paging)*，它会导致每次新分配页面时产生一次轻微的缺页错误。我们在 [@sec:AvoidPageFaults] 中讨论了如何降低这种开销。此外，出于安全考虑，所有现代操作系统在将页面分配给下一个进程之前都会擦除页面内容（写入零）。操作系统维护一个零页池，以便随时进行内存分配。但当这个零页池中的可用零页耗尽时，操作系统就必须按需将页面置零。这个过程虽然开销不大，但也并非完全免费，并且可能会增加内存分配调用的延迟。
+
+[^16]: Region-based memory management 基于区域的内存管理 - [https://en.wikipedia.org/wiki/Region-based_memory_management](https://en.wikipedia.org/wiki/Region-based_memory_management)
 [^17]: jemalloc - [http://jemalloc.net/](http://jemalloc.net/).
 [^18]: tcmalloc - [https://github.com/google/tcmalloc](https://github.com/google/tcmalloc)
-[^20]: Bruce Dawson: Hidden Costs of Memory Allocation - [https://randomascii.wordpress.com/2014/12/10/hidden-costs-of-memory-allocation/](https://randomascii.wordpress.com/2014/12/10/hidden-costs-of-memory-allocation/).
+[^20]: Bruce Dawson: Hidden Costs of Memory Allocation Bruce Dawson: 内存分配的隐藏成本 - [https://randomascii.wordpress.com/2014/12/10/hidden-costs-of-memory-allocation/](https://randomascii.wordpress.com/2014/12/10/hidden-costs-of-memory-allocation/).
