@@ -5,10 +5,13 @@
 
 In the tables below we present the most recent ISAs and microarchitectures from Intel, AMD, and ARM-based vendors. Of course, not all the designs are listed here. We only include those that we reference in the book or if they represent a big transition in the evolution of the platform.
 
+下表列出了Intel、AMD和ARM厂商最新的指令集体系结构(ISA)和微体系结构。当然，并非所有设计都列于此处。我们仅收录书中提及的或代表平台演进重大变革的设计。
+
 -----------------------------------------------------------------
     Name         Three-letter     Year released     Supported ISA
-                  acronym                          client/server
-                                                       chips
+    名字            acronym        发布时间            client/server
+                   三字母缩写                            chips
+                                                    扩展指令集支持
 --------------  ---------------  ---------------  ---------------
    Nehalem           NHM              2008             SSE4.2
 
@@ -28,10 +31,11 @@ Sandy Bridge         SNB              2011              AVX
 
 -----------------------------------------------------------------
 
-Table: List of the recent Intel Core microarchitectures. {#tbl:IntelUarchs}
+Table: List of the recent Intel Core microarchitectures. 近期Intel Core微体系结构列表{#tbl:IntelUarchs}
 
 ----------------------------------------------
     Name       Year released    Supported ISA
+    名字            发布时间      支持的指令集扩展
 ------------  ---------------  ---------------
  Steamroller       2014              AVX
 
@@ -49,13 +53,14 @@ Table: List of the recent Intel Core microarchitectures. {#tbl:IntelUarchs}
 
 ----------------------------------------------
 
-Table: List of the recent AMD microarchitectures. {#tbl:AMDUarchs}
+Table: List of the recent AMD microarchitectures. 近期AMD微体系结构列表 {#tbl:AMDUarchs}
 
 \newpage
 
 ------------------------------------------------------------------
     ISA        Year of ISA      Arm uarchs         Third-party
                  release         (latest)            uarchs
+ 指令集体系结构  指令集发布时间      Arm微体系结构      第三方微体系结构
 ------------  ---------------  --------------   ------------------
   ARMv8-A          2011          Cortex-A73        Apple A7-A10;
                                                   Qualcomm Kryo;
@@ -78,6 +83,6 @@ Table: List of the recent AMD microarchitectures. {#tbl:AMDUarchs}
  ARMv9.2-A         2020          Cortex X4             Apple M4
 ------------------------------------------------------------------
 
-Table: List of recent ARM ISAs along with their own and third-party implementations. {#tbl:ARMUarchs}
+Table: List of recent ARM ISAs along with their own and third-party implementations. 近期ARM指令集体系结构及其自身与第三方实现列表 {#tbl:ARMUarchs}
 
 \bibliography{biblio}
